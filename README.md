@@ -8,9 +8,10 @@ npm install --save
 ```
 4. Run using
 ```
-node index.js --credentials <googel vision api credentials file>
+node index.js --port <webui port> --credentials <googel vision api credentials file>
 ```
 Example:
 ```
-node index.js --credentials credentials/home-vision-api.json
+node index.js --port 3001 --credentials credentials/home-vision-api.json
 ```
+webui to upload images and download converted text will be available at http://localhost:3001
