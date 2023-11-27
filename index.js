@@ -60,20 +60,28 @@ try {
         shell.exec(command, function(code) {
             if (code === 0) {
                 console.log('File ' + inputFilename + ' converted to text');
-                const text = fs.readFileSync(downloadspath + '/' + outputFilename, 'utf8');
-                const downloadLink = `http://localhost:3000/download/${outputFilename}`;
+                try {
+                    const text = fs.readFileSync(downloadspath + '/' + outputFilename, 'utf8');
+                    const downloadLink = `http://localhost:3000/download/${outputFilename}`;
 
-                res.send({
-                    success: true,
-                    message: 'Text extracted successfully',
-                    downloadLink: downloadLink,
-                    text: text
-                });
+                    res.send({
+                        success: true,
+                        message: 'Text extracted successfully',
+                        downloadLink: downloadLink,
+                        text: text
+                    });
 
-                fs.unlink(uploadspath + '/' + inputFilename, (err) => {
-                    if (err) throw err;
-                    console.log(uploadspath + '/' + inputFilename + ' is deleted');
-                });
+                    fs.unlink(uploadspath + '/' + inputFilename, (err) => {
+                        if (err) throw err;
+                        console.log(uploadspath + '/' + inputFilename + ' is deleted');
+                    });
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).send({
+                        success: false,
+                        message: 'Error saving text file',
+                    });
+                }
 
             } else {
                 console.log('File ' + inputFilename + ' conversion to text failed');
