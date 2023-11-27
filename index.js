@@ -62,7 +62,7 @@ try {
                 console.log('File ' + inputFilename + ' converted to text');
                 try {
                     const text = fs.readFileSync(downloadspath + '/' + outputFilename, 'utf8');
-                    const downloadLink = req.protocol + '://' + req.hostname + '/' + outputFilename;
+                    const downloadLink = req.protocol + '://' + req.hostname + '/download/' + outputFilename;
 
                     res.send({
                         success: true,
