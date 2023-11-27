@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text Conversion</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .upload-form {
+            margin-bottom: 20px;
+        }
+        
+        .upload-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .upload-button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .language-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .text-display {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .download-link-container {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .download-link {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Image to Text Conversion</h1>
+
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <label for="image">Select Image:</label>
+            <input type="file" name="image" id="image" class="upload-input">
+
+            <label for="language">Select Language (Optional):</label>
+            <select name="language" id="language" class="language-select">
+        <option value="">Auto-detect</option>
+        <option value="en">English</option>
+        <option value="ml">Malayalam</option>
+        <option value="fr">French</option>
+        <option value="it">Italian</option>
+        <option value="de">German</option>
+      </select>
+
+            <button type="submit" class="upload-button">Upload</button>
+        </form>
+
+        <div class="text-display" id="textDisplay"></div>
+
+        <div class="download-link-container">
+            <a id="downloadLink" href="#" class="download-link">Download Text File</a>
+        </div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const textDisplay = document.getElementById('textDisplay');
+        const downloadLinkContainer = document.querySelector('.download-link-container');
+        const downloadLink = document.getElementById('downloadLink');
+
+        uploadForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(uploadForm);
+
+            fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        textDisplay.textContent = data.text;
+                        downloadLink.href = data.downloadLink;
+                        downloadLinkContainer.style.display = 'block';
+                    } else {
+                        alert('Error extracting text');
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
