@@ -51,7 +51,7 @@ try {
 
         console.log('File ' + inputFilename + ' received for conversion');
 
-        var command = `./imagetotext -i ${uploadspath}/${inputFilename} -o ${downloadspath}/${outputFilename} -c ${credentials}`;
+        var command = `./imagetotext -i "${uploadspath}/${inputFilename}" -o "${downloadspath}/${outputFilename}" -c "${credentials}"`;
 
         if (language) {
             command += ` -l ${language}`;

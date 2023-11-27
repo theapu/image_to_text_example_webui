@@ -86,6 +86,7 @@
             <button type="submit" class="upload-button">Upload</button>
         </form>
 
+        <div id="processingMessage" style="display: none;">Processing image...</div>
         <div class="text-display" id="textDisplay"></div>
 
         <div class="download-link-container">
@@ -102,6 +103,8 @@
         uploadForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
+            processingMessage.style.display = 'block';
+
             const formData = new FormData(uploadForm);
 
             fetch('/upload', {
@@ -113,8 +116,10 @@
                     if (data.success) {
                         textDisplay.textContent = data.text;
                         downloadLink.href = data.downloadLink;
+                        processingMessage.style.display = 'none';
                         downloadLinkContainer.style.display = 'block';
                     } else {
+                        processingMessage.style.display = 'none';
                         alert('Error extracting text');
                     }
                 });
