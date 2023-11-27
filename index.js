@@ -41,7 +41,8 @@ try {
     if (!fs.existsSync(downloadspath)) {
         fs.mkdirSync(downloadspath);
     }
-    app.enable('trust proxy)';
+
+    app.enable('trust proxy');
     
     app.use(express.static('public'));
 
